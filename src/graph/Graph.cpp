@@ -1,61 +1,80 @@
-#include "Edge.h"
+#include "Graph.h"
 
-// Default Constructor
-Edge::Edge()
+#include <iostream>
+
+// Constructor
+Graph::Graph()
 {
-    sourceId = 0;
-    destinationId = 0;
-    distance = 0.0;
-    trafficFactor = 1.0;
+
 }
 
-// Parameterized Constructor
-Edge::Edge(int sourceId, int destinationId, double distance, double trafficFactor)
+// Add Vertex
+void Graph::addVertex(const Vertex& vertex)
 {
-    this->sourceId = sourceId;
-    this->destinationId = destinationId;
-    this->distance = distance;
-    this->trafficFactor = trafficFactor;
-}
+    int id = vertex.getId();
 
-// Getters
-int Edge::getSourceId() const
-{
-    return sourceId;
-}
+    // Check if vertex already exists
+    if (vertices.find(id) != vertices.end())
+    {
+        std::cout << "Vertex with ID " << id << " already exists.\n";
+        return;
+    }
 
-int Edge::getDestinationId() const
-{
-    return destinationId;
-}
+    // Add vertex
+    vertices[id] = vertex;
 
-double Edge::getDistance() const
-{
-    return distance;
-}
+    // Create empty adjacency list
+    adjacencyList[id] = std::vector<Edge>();
 
-double Edge::getTrafficFactor() const
-{
-    return trafficFactor;
+    std::cout << "Vertex \"" << vertex.getName()
+              << "\" added successfully.\n";
 }
-
-// Setters
-void Edge::setSourceId(int sourceId)
+void Graph::displayGraph() const
 {
-    this->sourceId = sourceId;
-}
+    std::cout << "\n========== IntelliCity Graph ==========\n";
 
-void Edge::setDestinationId(int destinationId)
-{
-    this->destinationId = destinationId;
-}
+    if (vertices.empty())
+    {
+        std::cout << "Graph is empty.\n";
+        return;
+    }
 
-void Edge::setDistance(double distance)
-{
-    this->distance = distance;
-}
+    for (const auto& vertexPair : vertices)
+    {
+        const Vertex& vertex = vertexPair.second;
 
-void Edge::setTrafficFactor(double trafficFactor)
-{
-    this->trafficFactor = trafficFactor;
+        std::cout << "\nVertex ID : " << vertex.getId() << "\n";
+        std::cout << "Name      : " << vertex.getName() << "\n";
+        std::cout << "Position  : ("
+                  << vertex.getX()
+                  << ", "
+                  << vertex.getY()
+                  << ")\n";
+
+        std::cout << "Connected Roads:\n";
+
+        auto it = adjacencyList.find(vertex.getId());
+
+        if (it != adjacencyList.end() && !it->second.empty())
+        {
+            for (const Edge& edge : it->second)
+            {
+                std::cout
+                    << " -> "
+                    << edge.getDestinationId()
+                    << " | Distance: "
+                    << edge.getDistance()
+                    << " km"
+                    << " | Traffic: "
+                    << edge.getTrafficFactor()
+                    << "\n";
+            }
+        }
+        else
+        {
+            std::cout << " No connected roads.\n";
+        }
+    }
+
+    std::cout << "\n=======================================\n";
 }
