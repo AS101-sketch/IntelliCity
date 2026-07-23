@@ -78,3 +78,68 @@ void Graph::displayGraph() const
 
     std::cout << "\n=======================================\n";
 }
+bool Graph::hasVertex(int id) const
+{
+    return vertices.find(id) != vertices.end();
+}
+bool Graph::hasEdge(int sourceId, int destinationId) const
+{
+    auto it = adjacencyList.find(sourceId);
+
+    if (it == adjacencyList.end())
+    {
+        return false;
+    }
+
+    for (const Edge& edge : it->second)
+    {
+        if (edge.getDestinationId() == destinationId)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+void Graph::addEdge(const Edge& edge)
+{
+    int source = edge.getSourceId();
+    int destination = edge.getDestinationId();
+
+    // Check if source exists
+    if (!hasVertex(source))
+    {
+        std::cout << "Source vertex does not exist.\n";
+        return;
+    }
+
+    // Check if destination exists
+    if (!hasVertex(destination))
+    {
+        std::cout << "Destination vertex does not exist.\n";
+        return;
+    }
+
+    // Prevent self-loop
+    if (source == destination)
+    {
+        std::cout << "A vertex cannot connect to itself.\n";
+        return;
+    }
+
+    // Prevent duplicate edge
+    if (hasEdge(source, destination))
+    {
+        std::cout << "Road already exists.\n";
+        return;
+    }
+
+    // Add road
+    adjacencyList[source].push_back(edge);
+
+    std::cout << "Road added from "
+              << vertices[source].getName()
+              << " to "
+              << vertices[destination].getName()
+              << ".\n";
+}

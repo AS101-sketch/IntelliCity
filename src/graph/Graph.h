@@ -30,6 +30,8 @@ public:
     void addEdge(const Edge& edge);
     void removeEdge(int sourceId, int destinationId);
 
+    bool hasEdge(int sourceId, int destinationId) const;
+
     // Utility
     void displayGraph() const;
 
