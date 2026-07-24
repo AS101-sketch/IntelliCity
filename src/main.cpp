@@ -30,6 +30,23 @@ std::cout << "\nRemoving vertex...\n\n";
 city.removeVertex(2);
 
 city.displayGraph();
+std::cout << "\n===== Neighbors of F-8 =====\n";
+
+std::vector<Edge> neighbors = city.getNeighbors(1);
+
+for (const Edge& edge : neighbors)
+{
+    Vertex destination = city.getVertex(edge.getDestinationId());
+
+    std::cout
+        << destination.getName()
+        << " | Distance: "
+        << edge.getDistance()
+        << " km"
+        << " | Traffic: "
+        << edge.getTrafficFactor()
+        << "\n";
+}
 
     return 0;
 }
