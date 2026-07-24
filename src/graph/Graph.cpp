@@ -1,6 +1,7 @@
 #include "Graph.h"
 
 #include <iostream>
+#include <stdexcept>
 
 // Constructor
 Graph::Graph()
@@ -209,4 +210,26 @@ void Graph::removeVertex(int id)
 
     std::cout << "Vertex \"" << name
               << "\" removed successfully.\n";
+}
+std::vector<Edge> Graph::getNeighbors(int id) const
+{
+    auto it = adjacencyList.find(id);
+
+    if (it != adjacencyList.end())
+    {
+        return it->second;
+    }
+
+    return {};
+}
+Vertex Graph::getVertex(int id) const
+{
+    auto it = vertices.find(id);
+
+    if (it != vertices.end())
+    {
+        return it->second;
+    }
+
+    throw std::runtime_error("Vertex not found.");
 }
