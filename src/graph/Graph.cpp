@@ -143,3 +143,32 @@ void Graph::addEdge(const Edge& edge)
               << vertices[destination].getName()
               << ".\n";
 }
+void Graph::removeEdge(int sourceId, int destinationId)
+{
+    // Check if source vertex exists
+    if (!hasVertex(sourceId))
+    {
+        std::cout << "Source vertex does not exist.\n";
+        return;
+    }
+
+    auto& edges = adjacencyList[sourceId];
+
+    for (auto it = edges.begin(); it != edges.end(); ++it)
+    {
+        if (it->getDestinationId() == destinationId)
+        {
+            edges.erase(it);
+
+            std::cout << "Road removed from "
+                      << vertices[sourceId].getName()
+                      << " to "
+                      << vertices[destinationId].getName()
+                      << ".\n";
+
+            return;
+        }
+    }
+
+    std::cout << "Road does not exist.\n";
+}
