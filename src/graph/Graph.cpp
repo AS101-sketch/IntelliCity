@@ -181,12 +181,32 @@ void Graph::removeVertex(int id)
         return;
     }
 
+    std::string name = vertices[id].getName();
+
+    // Remove all incoming roads
+    for (auto& pair : adjacencyList)
+    {
+        auto& edges = pair.second;
+
+        for (auto it = edges.begin(); it != edges.end(); )
+        {
+            if (it->getDestinationId() == id)
+            {
+                it = edges.erase(it);
+            }
+            else
+            {
+                ++it;
+            }
+        }
+    }
+
     // Remove all outgoing roads
     adjacencyList.erase(id);
 
-    // Remove the vertex
-    std::string name = vertices[id].getName();
+    // Remove vertex itself
     vertices.erase(id);
 
-    std::cout << "Vertex \"" << name << "\" removed successfully.\n";
+    std::cout << "Vertex \"" << name
+              << "\" removed successfully.\n";
 }

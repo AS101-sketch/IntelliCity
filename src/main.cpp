@@ -23,8 +23,8 @@ Edge e3(1, 3, 7.2, 1.5);
 city.addEdge(e1);
 city.addEdge(e2);
 city.addEdge(e3);
-std::cout << "\nRemoving road...\n\n";
-city.removeEdge(1, 2);
+
+
 
 std::cout << "\nRemoving vertex...\n\n";
 city.removeVertex(2);
