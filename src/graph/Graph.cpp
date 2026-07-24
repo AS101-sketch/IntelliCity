@@ -172,3 +172,21 @@ void Graph::removeEdge(int sourceId, int destinationId)
 
     std::cout << "Road does not exist.\n";
 }
+void Graph::removeVertex(int id)
+{
+    // Check if vertex exists
+    if (!hasVertex(id))
+    {
+        std::cout << "Vertex does not exist.\n";
+        return;
+    }
+
+    // Remove all outgoing roads
+    adjacencyList.erase(id);
+
+    // Remove the vertex
+    std::string name = vertices[id].getName();
+    vertices.erase(id);
+
+    std::cout << "Vertex \"" << name << "\" removed successfully.\n";
+}
